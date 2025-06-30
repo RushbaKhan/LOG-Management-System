@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}ELOG & MVPs{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+    }
+
+    /* ELOG section container */
+    .elog-container {
+        background-color: transparent;
+        padding: 40px;
+        margin-top: 60px;
+        text-align: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        transition: transform 0.3s ease;
+    }
+
+    .elog-container img {
+        width: 90%;
+        height: auto;
+    }
+
+    .elog-container:hover {
+        transform: scale(1.05);
+    }
+
+    /* Square and Large MVP containers */
+    .mvp-container {
+        position: relative;
+        width: 1100px;
+        height: 1100px;
+        margin-bottom: 50px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .mvp-container .carousel-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* House Folder container */
+    .house-folder {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .house-folder img {
+        border-radius: 10px;
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .house-folder:hover {
+        transform: scale(1.1);
+        transition: all 0.3s ease;
+    }
+
+    /* Title & Heading styling */
+    h3 {
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 40px;
+    }
+
+    /* Grid Layout for MVP containers */
+    .mvp-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 80px;
+        justify-items: center;
+        margin-bottom: 100px;
+    }
+
+    /* Adjustments for mobile screens */
+    @media (max-width: 768px) {
+        .mvp-grid {
+            grid-template-columns: 1fr;
+        }
+        .mvp-container {
+            height: 900px;
+            width: 100%;
+        }
+    }
+
+    /* Background images for each container */
+    .mvp-container-1 {
+        background-image: url("{% static 'red.jpeg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .mvp-container-2 {
+        background-image: url("{% static 'green.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .mvp-container-3 {
+        background-image: url("{% static 'blue.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .mvp-container-4 {
+        background-image: url("{% static 'yellow.jpeg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+</style>
+
+<!-- ELOG Section -->
+<div class="container text-center mb-5 elog-container">
+    <img src="{% static 'ELOG POSTER.jpeg' %}" alt="ELOG Poster" class="img-fluid">
+</div>
+
+<!-- Heading before MVP Folders -->
+<h3>View House MVPs</h3>
+
+<!-- MVP Folders Section -->
+<div class="container mb-5">
+    <div class="mvp-grid">
+        <!-- Ares MVP Folder -->
+        <div class="col-md-6 mb-4">
+            <div class="house-folder mvp-container mvp-container-1" data-bs-toggle="modal" data-bs-target="#aresModal">
+                <div class="card-body">
+                    <div id="aresCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{% static 'ares mvp1.jpeg' %}" class="d-block w-100" alt="Ares MVP 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'ares mvp2.jpeg' %}" class="d-block w-100" alt="Ares MVP 2">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#aresCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#aresCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zeus MVP Folder -->
+        <div class="col-md-6 mb-4">
+            <div class="house-folder mvp-container mvp-container-3" data-bs-toggle="modal" data-bs-target="#zeusModal">
+                <div class="card-body">
+                    <div id="zeusCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{% static 'zeus mvp1.jpeg' %}" class="d-block w-100" alt="Zeus MVP 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'zeus mvp2.jpeg' %}" class="d-block w-100" alt="Zeus MVP 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'zeus mvp3.jpeg' %}" class="d-block w-100" alt="Zeus MVP 3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'zeus mvp4.jpeg' %}" class="d-block w-100" alt="Zeus MVP 4">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#zeusCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#zeusCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kronos MVP Folder -->
+        <div class="col-md-6 mb-4">
+            <div class="house-folder mvp-container mvp-container-2" data-bs-toggle="modal" data-bs-target="#kronosModal">
+                <div class="card-body">
+                    <div id="kronosCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{% static 'kronos mvp1.jpeg' %}" class="d-block w-100" alt="Kronos MVP 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'kronos mvp2.jpeg' %}" class="d-block w-100" alt="Kronos MVP 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'kronos mvp3.jpeg' %}" class="d-block w-100" alt="Kronos MVP 3">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#kronosCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#kronosCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Apollo MVP Folder -->
+                <div class="col-md-6 mb-4">
+                    <div class="house-folder mvp-container mvp-container-4" data-bs-toggle="modal" data-bs-target="#apolloModal">
+                        <div class="card-body">
+                            <div id="apolloCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="{% static 'apollo mvp1.jpeg' %}" class="d-block w-100" alt="Apollo MVP 1">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="{% static 'apollo mvp2.jpeg' %}" class="d-block w-100" alt="Apollo MVP 2">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="{% static 'apollo mvp3.jpeg' %}" class="d-block w-100" alt="Apollo MVP 3">
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#apolloCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#apolloCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Structure (for demonstration, you can add more modals for each MVP folder) -->
+        <div class="modal fade" id="aresModal" tabindex="-1" aria-labelledby="aresModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="aresModalLabel">Ares MVP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="aresModalCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'ares mvp1.jpeg' %}" class="d-block w-100" alt="Ares MVP 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'ares mvp2.jpeg' %}" class="d-block w-100" alt="Ares MVP 2">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#aresModalCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#aresModalCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Structure for Zeus -->
+        <div class="modal fade" id="zeusModal" tabindex="-1" aria-labelledby="zeusModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="zeusModalLabel">Zeus MVP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="zeusModalCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'zeus mvp1.jpeg' %}" class="d-block w-100" alt="Zeus MVP 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'zeus mvp2.jpeg' %}" class="d-block w-100" alt="Zeus MVP 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'zeus mvp3.jpeg' %}" class="d-block w-100" alt="Zeus MVP 3">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'zeus mvp4.jpeg' %}" class="d-block w-100" alt="Zeus MVP 4">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#zeusModalCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#zeusModalCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Structure for Kronos -->
+        <div class="modal fade" id="kronosModal" tabindex="-1" aria-labelledby="kronosModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="kronosModalLabel">Kronos MVP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="kronosModalCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'kronos mvp1.jpeg' %}" class="d-block w-100" alt="Kronos MVP 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'kronos mvp2.jpeg' %}" class="d-block w-100" alt="Kronos MVP 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'kronos mvp3.jpeg' %}" class="d-block w-100" alt="Kronos MVP 3">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#kronosModalCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#kronosModalCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Structure for Apollo -->
+        <div class="modal fade" id="apolloModal" tabindex="-1" aria-labelledby="apolloModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="apolloModalLabel">Apollo MVP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="apolloModalCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{% static 'apollo mvp1.jpeg' %}" class="d-block w-100" alt="Apollo MVP 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'apollo mvp2.jpeg' %}" class="d-block w-100" alt="Apollo MVP 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'apollo mvp3.jpeg' %}" class="d-block w-100" alt="Apollo MVP 3">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#apolloModalCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#apolloModalCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+        

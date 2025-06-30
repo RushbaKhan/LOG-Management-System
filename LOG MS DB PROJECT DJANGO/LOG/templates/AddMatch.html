@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Add Match{% endblock %}
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        z-index: -1;
+    }
+
+    .form-container {
+        background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid #ddd;
+    }
+
+    .form-header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:hover,
+    .form-control:focus {
+        border-color: #6A1B9A;
+        box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #6A1B9A;
+        border-color: #6A1B9A;
+        transition: all 0.3s ease-in-out;
+        color: #fff;
+        padding: 8px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+        background-color: #4B0082;
+        transform: scale(1.05);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: all 0.3s ease-in-out;
+        padding: 8px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        transform: scale(1.05);
+    }
+
+    #house-dropdown, #game-dropdown {
+        position: absolute;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    #house-dropdown div, #game-dropdown div {
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    #house-dropdown div:hover, #game-dropdown div:hover {
+        background-color: #f1f1f1;
+    }
+
+    #house-dropdown div.selected, #game-dropdown div.selected {
+        background-color: #6A1B9A;
+        color: #fff;
+    }
+
+    #house-dropdown div.disabled, #game-dropdown div.disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        .form-header {
+            font-size: 1.5rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="overlay"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="form-header">
+                    Add Match
+                </div>
+                <form method="post" action="{% url 'add_match' %}">
+                    {% csrf_token %}
+                    {% if success_message %}
+                        <div class="alert alert-success">{{ success_message }}</div>
+                    {% endif %}
+                    {% if error_message %}
+                        <div class="alert alert-danger">{{ error_message }}</div>
+                    {% endif %}
+
+                    <!-- Game Dropdown -->
+                    <div class="mb-3">
+                        <label for="game" class="form-label">Game</label>
+                        <select class="form-control" id="game" name="game" required>
+                            <option value="">Select Game</option>
+                            {% for game in games %}
+                                <option value="{{ game.game_name }}">{{ game.game_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Venue Dropdown -->
+                    <div class="mb-3">
+                        <label for="venue" class="form-label">Venue</label>
+                        <select class="form-control" id="venue" name="venue" required>
+                            <option value="">Select Venue</option>
+                            {% for venue in venues %}
+                                <option value="{{ venue.venue_id }}">{{ venue.venue_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- House 1 Dropdown -->
+                    <div class="mb-3">
+                        <label for="house1" class="form-label">House 1</label>
+                        <select class="form-control" id="house1" name="house1" required>
+                            <option value="">Select House</option>
+                            {% for house in houses %}
+                                <option value="{{ house.house_name }}">{{ house.house_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- House 2 Dropdown -->
+                    <div class="mb-3">
+                        <label for="house2" class="form-label">House 2</label>
+                        <select class="form-control" id="house2" name="house2" required>
+                            <option value="">Select House</option>
+                            {% for house in houses %}
+                                <option value="{{ house.house_name }}">{{ house.house_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Scheduled Date -->
+                    <div class="mb-3">
+                        <label for="scheduled_date" class="form-label">Scheduled Date</label>
+                        <input type="date" class="form-control" id="scheduled_date" name="scheduled_date" required>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Add Match</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

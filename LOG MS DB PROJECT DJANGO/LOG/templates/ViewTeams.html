@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}View Teams{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0); /* Transparent overlay */
+        z-index: -1;
+    }
+
+    /* Styling the container for teams */
+    .teams-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        gap: 20px;
+        padding: 30px;
+    }
+
+    /* Container for each house */
+    .house-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: white; /* Ensure text contrasts well on background */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* House logo styling */
+    .house-logo img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* Bold all headings */
+    h3, h4 {
+        font-weight: bold;
+    }
+
+    .players-container {
+        margin-top: 20px;
+    }
+
+    .player {
+        margin-bottom: 10px;
+    }
+
+    .player h4 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .players-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    /* Media query for responsive layout */
+    @media (max-width: 768px) {
+        .teams-container {
+            grid-template-columns: 1fr; /* Stack content in a single column */
+        }
+    }
+
+    /* Styling for header logos (4 logos) */
+    .logos-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 logos in a row */
+        gap: 20px;
+        justify-items: center;
+        margin-bottom: 30px;
+    }
+
+    .logos-container img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    /* Specific backgrounds for each house container */
+    .house-container-1 {
+        background-image: url("{% static 'red.jpeg' %}"); /* Image for House 1 */
+    }
+
+    .house-container-2 {
+        background-image: url("{% static 'green.jpg' %}"); /* Image for House 2 */
+    }
+
+    .house-container-3 {
+        background-image: url("{% static 'blue.jpg' %}"); /* Image for House 3 */
+    }
+
+    .house-container-4 {
+        background-image: url("{% static 'yellow.jpeg' %}"); /* Image for House 4 */
+    }
+</style>
+
+<div class="overlay"></div>
+
+<div class="container mt-5">
+
+    <div class="table-container">
+        <!-- Container for house teams -->
+        <div class="teams-container">
+            {% for house_data in teams_data %}
+            <div class="house-container {% if house_data.house.house_name == 'Ares' %}house-container-1{% elif house_data.house.house_name == 'Kronos' %}house-container-2{% elif house_data.house.house_name == 'Zeus' %}house-container-3{% else %}house-container-4{% endif %}">
+                
+                <div class="house-logo">
+                    {% if house_data.house.house_name == 'Ares' %}
+                        <img src="{% static 'Ares logo.png' %}" alt="Ares Logo">
+                    {% elif house_data.house.house_name == 'Kronos' %}
+                        <img src="{% static 'Kronos logo.png' %}" alt="Kronos Logo">
+                    {% elif house_data.house.house_name == 'Zeus' %}
+                        <img src="{% static 'zeus logo.png' %}" alt="Zeus Logo">
+                    {% else %}
+                        <img src="{% static 'apollo logo.png' %}" alt="Apollo Logo">
+                    {% endif %}
+                </div>
+                
+                <div class="house-info">
+                    <h3>{{ house_data.house.house_name }}</h3>
+                    <p><strong>Captain:</strong> {{ house_data.captain_name }}</p>
+                    <p><strong>Phone:</strong> {{ house_data.house.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ house_data.house.email }}</p>
+
+                    <h4>Players in this House:</h4>
+                    <div class="players-container">
+                        <ul class="players-list">
+                            {% for player in house_data.players %}
+                            <li class="player">{{ player.first_name }} {{ player.last_name }} - {{ player.phone_number }}</li>
+                            {% empty %}
+                            <li>No players found for this house.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No houses found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

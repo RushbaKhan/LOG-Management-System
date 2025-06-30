@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Match{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: -1;
+    }
+
+    .form-container {
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-header {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:hover {
+        border-color: #6A1B9A;
+    }
+
+    .form-control:focus {
+        border-color: #6A1B9A;
+        box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+    }
+
+    .btn {
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #6A1B9A;
+        border-color: #6A1B9A;
+        transition: all 0.3s ease-in-out;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #4B0082;
+        transform: scale(1.05);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        transform: scale(1.05);
+    }
+
+    .success-message {
+        color: green;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+<div class="overlay"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="form-header">
+                    Edit Match
+                </div>
+                <form method="post" action="{% url 'edit_match' match.match_id %}">
+                    {% csrf_token %}
+                    <!-- Game Dropdown -->
+                    <div class="mb-3">
+                        <label for="game" class="form-label">Game</label>
+                        <select class="form-control" id="game" name="game" required>
+                            {% for game in games %}
+                                <option value="{{ game.game_name }}" {% if game == match.game %}selected{% endif %}>
+                                    {{ game.game_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- House 1 Dropdown -->
+                    <div class="mb-3">
+                        <label for="house1" class="form-label">House 1</label>
+                        <select class="form-control" id="house1" name="house1" required>
+                            {% for house in houses %}
+                                <option value="{{ house.house_name }}" {% if house == match.house1 %}selected{% endif %}>
+                                    {{ house.house_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- House 2 Dropdown -->
+                    <div class="mb-3">
+                        <label for="house2" class="form-label">House 2</label>
+                        <select class="form-control" id="house2" name="house2" required>
+                            {% for house in houses %}
+                                <option value="{{ house.house_name }}" {% if house == match.house2 %}selected{% endif %}>
+                                    {{ house.house_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Venue Dropdown -->
+                    <div class="mb-3">
+                        <label for="venue" class="form-label">Venue</label>
+                        <select class="form-control" id="venue" name="venue" required>
+                            {% for venue in venues %}
+                                <option value="{{ venue.venue_name }}" {% if venue == match.venue %}selected{% endif %}>
+                                    {{ venue.venue_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Scheduled Date -->
+                    <div class="mb-3">
+                        <label for="scheduled_date" class="form-label">Scheduled Date</label>
+                        <input type="date" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ match.scheduled_date }}" required>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Scheduled" {% if match.status == "Scheduled" %}selected{% endif %}>Scheduled</option>
+                            <option value="Ongoing" {% if match.status == "Ongoing" %}selected{% endif %}>Ongoing</option>
+                            <option value="Completed" {% if match.status == "Completed" %}selected{% endif %}>Completed</option>
+                            <option value="Cancelled" {% if match.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'view_matches' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                    <div id="response-message">
+                        {% if success_message %}
+                            <p class="success-message">{{ success_message }}</p>
+                        {% elif error_message %}
+                            <p class="error-message">{{ error_message }}</p>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ house_name }} Stats{% endblock title %}
+
+{% block content %}
+<!-- Set the background image dynamically with an opaque container -->
+<div class="container mt-5" style="background-image: url('{% static background_image %}'); background-size: cover; background-position: center; background-attachment: fixed; background-color: rgba(0, 0, 0, 0.8);">
+    <style>
+        /* More opaque background for the outer container */
+        body {
+            background-image: url('{% static background_image %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;  /* White text for contrast */
+        }
+
+        /* Card header with house color */
+        .card-header {
+            background-color: {{ house_color }};
+            text-align: center; /* Center the heading */
+        }
+
+        /* Style for chart containers: White background with padding */
+        .chart-container {
+            background-color: white;  /* White background for charts */
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart {
+            margin-bottom: 20px;
+        }
+
+        /* Section title for charts */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center; /* Center the section titles */
+        }
+
+        /* Style the total points and rank */
+        .card-body h4 {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* The outer container (card) background color */
+        .card {
+            background-color: rgba(255, 255, 255, 0.5);  /* More opaque white background */
+        }
+    </style>
+
+    <div class="card">
+        <div class="card-header text-white">
+            <h2>{{ house_name }} Statistics</h2>
+        </div>
+        <div class="card-body">
+            <h4>Total Points: {{ total_points }}</h4>
+            <h4>Current Rank: {{ current_rank }}</h4>
+            <hr>
+
+            <!-- Performance by Game Section -->
+            <h5 class="section-title">Performance by Game</h5>
+            {% if games %}
+                <div class="row">
+                    <!-- Pie Chart Container -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h6 class="section-title">Game Distribution (Pie Chart)</h6>
+                            <img src="{{ pie_chart_url }}" alt="Game Distribution Pie Chart" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <!-- Bar Chart Container -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h6 class="section-title">Scores by Game (Bar Chart)</h6>
+                            <img src="{{ bar_chart_url }}" alt="Game Scores Bar Chart" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Line Chart Container -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h6 class="section-title">Score Trend (Line Chart)</h6>
+                            <img src="{{ line_chart_url }}" alt="Score Trend Line Chart" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <!-- Scatter Plot Container -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h6 class="section-title">Game vs Score (Scatter Plot)</h6>
+                            <img src="{{ scatter_chart_url }}" alt="Game vs Score Scatter Plot" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="no-data-message">No match statistics available for {{ house_name }}.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

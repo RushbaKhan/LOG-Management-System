@@ -1,0 +1,273 @@
+    {% extends 'base.html' %}
+
+    {% load static %}
+    {% block title %}Edit Player{% endblock %}
+
+    {% block content %}
+    <style>
+        body {
+            background-image: url("{% static 'left.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-header {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:hover {
+            border-color: #6A1B9A;
+        }
+
+        .form-control:focus {
+            border-color: #6A1B9A;
+            box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+        }
+
+        .btn {
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #6A1B9A;
+            border-color: #6A1B9A;
+            transition: all 0.3s ease-in-out;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #4B0082;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+            transform: scale(1.05);
+        }
+
+        /* Custom dropdown styling */
+        .dropdown-container {
+            position: relative;
+        }
+
+        #house-dropdown {
+            display: none;
+            position: absolute;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        #house-dropdown div {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        #house-dropdown div:hover {
+            background-color: #f1f1f1;
+        }
+
+        #house-dropdown div.selected {
+            background-color: #6A1B9A;
+            color: #fff;
+        }
+
+        #house-dropdown div.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Styling for the input */
+        #house {
+            padding-right: 40px;
+        }
+
+        .dropdown-container input:focus {
+            border-color: #6A1B9A;
+            box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+        }
+
+    </style>
+
+    <div class="overlay"></div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <div class="form-header">
+                        Edit Player
+                    </div>
+                    <form method="post" action="{% url 'edit_player' player.player_id %}">
+                        {% csrf_token %}
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ player.first_name }}" required>
+                        </div>
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ player.last_name }}" required>
+                        </div>
+                         <!-- Phone Number -->
+                        <div class="mb-3">
+                            <label for="phone_number" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{player.phone_number}}" required>
+                        </div>
+                        <!--Email-->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" value="{{player.email}}" required>
+                        </div>
+                        <!-- House Dropdown -->
+                        <div class="mb-3">
+                            <label for="house" class="form-label">House</label>
+                            <select class="form-control" id="house" name="house" required>
+                                <option value="">Select House</option>
+                                {% for house in houses %}
+                                    <option value="{{ house.house_name }}" {% if house.house_name == player.house %} selected {% endif %}>
+                                        {{ house.house_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    
+
+                        <!-- Game Dropdown -->
+                    <div class="mb-3">
+                    <label for="game" class="form-label">Game</label>
+                    <select class="form-control" id="game" name="game" required>
+                    <option value="">Select a Game</option>
+                    {% for game in games %}
+                        <option value="{{ game.game_name }}" {% if game.game_name == player.game %} selected {% endif %}>
+                    {{ game.game_name }}
+                    </option>
+                    {% endfor %}
+                        </select>
+                        </div>
+                    
+        
+
+                        <!-- Buttons -->
+                        <div class="text-center">
+                            
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <form method="post" action="{% url 'edit_player' player.player_id %}">
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                        <div id="response-message">
+                            {% if success_message %}
+                                <p class="success-message">{{ success_message }}</p>
+                            {% elif error_message %}
+                                <p class="error-message">{{ error_message }}</p>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const houseInput = document.getElementById("house");
+        const houseDropdown = document.getElementById("house-dropdown");
+        const houseOptions = document.querySelectorAll('.house-option');
+
+        // Show/hide dropdown when clicking the input field
+        houseInput.addEventListener("click", () => {
+            houseDropdown.style.display = houseDropdown.style.display === "block" ? "none" : "block";
+        });
+
+        // Select a house from dropdown and update input
+        houseDropdown.addEventListener("click", (event) => {
+            if (event.target.dataset.value) {
+                houseInput.value = event.target.dataset.value;
+                houseDropdown.style.display = "none";
+            }
+        });
+
+        // Close the dropdown when clicking outside
+        document.addEventListener("click", (event) => {
+            if (!houseInput.contains(event.target) && !houseDropdown.contains(event.target)) {
+                houseDropdown.style.display = "none";
+            }
+        });
+
+        const gameInput = document.getElementById("game");
+            const gameDropdown = document.getElementById("game-dropdown");
+            const gameOptions = document.querySelectorAll('.game-option');
+        
+            // Show/hide dropdown when clicking the input field
+            gameInput.addEventListener("click", () => {
+                gameDropdown.style.display = gameDropdown.style.display === "block" ? "none" : "block";
+            });
+        
+            // Select a game from dropdown and update input and hidden field
+            gameDropdown.addEventListener("click", (event) => {
+                if (event.target.dataset.value) {
+                    gameInput.value = event.target.dataset.value;
+                    // Update the hidden input field with the selected game
+                    document.querySelector('input[name="game"]').value = event.target.dataset.value;
+                    gameDropdown.style.display = "none";
+                }
+            });
+        
+            // Close the dropdown when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!gameInput.contains(event.target) && !gameDropdown.contains(event.target)) {
+                    gameDropdown.style.display = "none";
+                }
+            });
+    </script>
+
+    {% endblock %}

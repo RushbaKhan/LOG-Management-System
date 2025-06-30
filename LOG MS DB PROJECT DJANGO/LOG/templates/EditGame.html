@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Game{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        z-index: -1;
+    }
+
+    .form-container {
+        background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid #ddd;
+    }
+
+    .form-header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:hover,
+    .form-control:focus {
+        border-color: #6A1B9A;
+        box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #6A1B9A;
+        border-color: #6A1B9A;
+        color: #fff;
+        padding: 8px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 25px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #4B0082;
+        transform: scale(1.05);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        padding: 8px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="overlay"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="form-header">
+                    Edit Game
+                </div>
+                <form method="post" action="{% url 'edit_game' game.game_id %}">
+                    {% csrf_token %}
+                    
+                    <!-- Game Name -->
+                    <div class="mb-3">
+                        <label for="game_name" class="form-label">Game Name</label>
+                        <input type="text" class="form-control" id="game_name" name="game_name" value="{{ game.game_name }}" required>
+                    </div>
+
+                    <!-- Game Type -->
+                    <div class="mb-3">
+                        <label for="game_type" class="form-label">Game Type</label>
+                        <select class="form-control" id="game_type" name="game_type">
+                            <option value="Indoor" {% if game.game_type == "Indoor" %}selected{% endif %}>Indoor</option>
+                            <option value="Outdoor" {% if game.game_type == "Outdoor" %}selected{% endif %}>Outdoor</option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>{{ game.description }}</textarea>
+                    </div>
+                    
+
+
+                    <!-- Submit and Cancel -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'view_game' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                    <div id="response-message">
+                        {% if success_message %}
+                            <p class="success-message">{{ success_message }}</p>
+                        {% elif error_message %}
+                            <p class="error-message">{{ error_message }}</p>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

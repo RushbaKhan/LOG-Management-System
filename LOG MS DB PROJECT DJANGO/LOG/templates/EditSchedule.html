@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Schedule{% endblock %}
+
+{% block content %}
+<style>
+    /* Include your provided CSS for styling */
+</style>
+
+<div class="overlay"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="form-header">
+                    {% if edit_mode %}Edit Match Schedule{% else %}Schedule a Match{% endif %}
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- Match Dropdown -->
+                    <div class="mb-3">
+                        <label for="match" class="form-label">Match</label>
+                        <select class="form-control" id="match" name="match" required>
+                            <option value="">Select Match</option>
+                            {% for match in matches %}
+                                <option value="{{ match.id }}" 
+                                    {% if schedule and schedule.match.id == match.id %}selected{% endif %}>
+                                    {{ match }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Venue Dropdown -->
+                    <div class="mb-3">
+                        <label for="venue" class="form-label">Venue</label>
+                        <select class="form-control" id="venue" name="venue" required>
+                            <option value="">Select Venue</option>
+                            {% for venue in venues %}
+                                <option value="{{ venue.id }}" 
+                                    {% if schedule and schedule.venue.id == venue.id %}selected{% endif %}>
+                                    {{ venue.venue_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Schedule Date -->
+                    <div class="mb-3">
+                        <label for="schedule_date" class="form-label">Schedule Date</label>
+                        <input type="date" class="form-control" id="schedule_date" name="schedule_date"
+                               value="{{ schedule.schedule_date }}" required>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            {% if edit_mode %}Update Schedule{% else %}Schedule Match{% endif %}
+                        </button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<style>
+    /* Full-page background */
+    body {
+        background-image: url("{% static 'left.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    /* Styling for carousel */
+    .carousel {
+        max-width: 80%; /* Adjust the width of the carousel */
+        height: auto; /* Make height flexible to fit image */
+        margin: 50px auto; /* Centers the carousel with some top margin */
+        overflow: hidden; /* Ensures no overflow */
+        margin-right: 425px;
+    }
+
+    .carousel-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-inner img {
+        width: auto; /* Adjusts width automatically */
+        height: auto; /* Keeps image height proportional */
+        max-width: 100%; /* Ensures image doesn't exceed carousel width */
+        max-height: 400px; /* Sets a max height, adjust as needed */
+        object-fit: contain; /* Ensures the image fits without cutting */
+    }
+
+    /* Remove captions */
+    .carousel-caption {
+        display: none;
+    }
+
+    /* Center slider lines (carousel indicators) */
+    .carousel-indicators {
+        position: absolute;
+        bottom: -5px; /* Adjust as needed to position below the carousel */
+        left: 58%; /* Start from the center horizontally */
+        transform: translateX(-50%); /* Shift to truly center it */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1px; /* Space between dots */
+        width: auto; /* Adjust to fit the number of dots */
+    }
+    
+    .carousel-control-prev {
+        display: none; /* This hides the left arrow */
+    }
+
+    .carousel-control-next {
+        right: -55px; /* Align to right edge of image */
+    }
+
+   
+    .center-page {
+        display: grid;
+        place-items: center;
+        height: 80vh;
+    }
+
+</style>
+
+<div class="overlay"></div>
+<div class="center-page">
+    <div class="house-logo">
+        <img src="{% static 'LOG LOGO.png' %}" alt="Logo 3">
+    </div>
+</div>
+
+<div id="carouselExampleCaptions" class="carousel slide my-4" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'houses.jpeg' %}" class="d-block" alt="Houses">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'Ares.jpeg' %}" class="d-block" alt="Apollo">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'Apollo.jpeg' %}" class="d-block" alt="Ares">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'Zeus.jpeg' %}" class="d-block" alt="Zeus">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'Kronos.jpeg' %}" class="d-block" alt="Kronos">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+{% endblock content %}
