@@ -3,7 +3,6 @@
 **National University of Computer and Emerging Sciences, Karachi Campus**  
 **Spring 2025**  
 **Database Systems Course**  
-**Assignment: User Guide Development Project**
 
 ---
 
