@@ -15,7 +15,6 @@ The **League of Glory (LOG) Management System (LMS)** is a Django-based web appl
 - **Players:** View match schedules and stats.
 - **Spectators:** Access leaderboards and highlights.
 
-![Overview](media/overview.png)
 
 ---
 
@@ -29,7 +28,6 @@ The **League of Glory (LOG) Management System (LMS)** is a Django-based web appl
 - **Graphs & Visualizations:** Display trends and performance metrics.
 - **ELOG & MVPs:** Showcase top performers via posters and carousels.
 
-![Features](media/features.png)
 
 ---
 
@@ -50,7 +48,6 @@ The **League of Glory (LOG) Management System (LMS)** is a Django-based web appl
 2. Enter username and password.
 3. Click **Login** to access the dashboard.
 
-![Login](media/login.png)
 
 ### 4.2 Viewing Matches
 1. Go to **Matches** > **View Matches**.
@@ -67,7 +64,6 @@ The **League of Glory (LOG) Management System (LMS)** is a Django-based web appl
 2. Input player details (name, contact, house, game).
 3. Click **Add Player** or use **View Players** to edit/delete.
 
-![Player Management](media/player_management.png)
 
 ### 4.5 Updating Statistics
 1. Go to **Rankings** > **Update Player Stats**.
@@ -78,13 +74,11 @@ The **League of Glory (LOG) Management System (LMS)** is a Django-based web appl
 1. Go to **Stats** > Select house (e.g., Ares, Zeus).
 2. View performance metrics.
 
-![Statistics](media/statistics.png)
 
 ### 4.7 ELOG & MVPs
 - **ELOG Poster:** Displays event details with hover-enlargement.
 - **MVPs Carousel:** Showcases top players with team-themed frames.
 
-![ELOG](media/elog.png)
 
 ---
 
